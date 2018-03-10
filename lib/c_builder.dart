@@ -331,8 +331,11 @@ class SwitchCase extends Code {
   void generate(CodeBuffer buffer) {
     if (expression == null)
       buffer.write('default:');
-    else buffer.write('case ${expression.code}:');
-    buffer..writeln()..indent();
+    else
+      buffer.write('case ${expression.code}:');
+    buffer
+      ..writeln()
+      ..indent();
     body.forEach((c) => c.generate(buffer));
     buffer.outdent();
   }
@@ -352,7 +355,7 @@ class Expression extends CodeWithComments {
       return new Expression('"${_escapeQuotes(x)}"');
     }
 
-    if (x is num) return new Expression.value(x.toString());
+    if (x is num) return new Expression(x.toString());
 
     throw new ArgumentError(
         'Cannot express a value of type ${x.runtimeType} as a C expression.');
@@ -450,4 +453,29 @@ class Expression extends CodeWithComments {
 
   Expression operator [](Expression other) =>
       new Expression('$code[${other.code}]');
+}
+
+/// Represents an `enum` in C.
+class Enum extends CodeWithComments {
+  final String name;
+  final List<String> values = [];
+
+  @override
+  void generate(CodeBuffer buffer) {
+    super.generate(buffer);
+    buffer
+      ..writeln('enum $name {')
+      ..indent();
+
+    for (int i = 0; i < values.length; i++) {
+      var trail = i == values.length - 1 ? '' : ',';
+      buffer.writeln('${values[i]} = $i$trail');
+    }
+
+    buffer
+      ..outdent()
+      ..writeln('}');
+  }
+
+  Enum(this.name);
 }
