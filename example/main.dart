@@ -1,12 +1,3 @@
-# c_builder
-[![Pub](https://img.shields.io/pub/v/c_builder.svg)](https://pub.dartlang.org/packages/c_builder)
-
-An API for generating C code in Dart. Especially helpful for
-compiler development. Supports generating every possible unit of
-C code.
-
-## Example
-```dart
 import 'package:c_builder/c_builder.dart';
 import 'package:code_buffer/code_buffer.dart';
 
@@ -32,4 +23,3 @@ main() {
   unit.generate(buf);
   print(buf);
 }
-```
