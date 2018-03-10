@@ -110,6 +110,8 @@ class CType extends Code {
       uint16_t = new CType('uint16_t'),
       uint32_t = new CType('uint32_t'),
       uint64_t = new CType('uint64_t'),
+      size_t = new CType('size_t'),
+      ptrdiff_t = new CType('ptrdiff_t'),
       void$ = new CType('void');
 
   final String code;
@@ -384,6 +386,10 @@ class Expression extends CodeWithComments {
   Code asReturn() => new Code('return $code;');
 
   Code asThrow() => new Code('throw $code;');
+
+  Expression invoke(Iterable<Expression> arguments) {
+    return new Expression('$code(${arguments.map((a) => a.code).join(', ')})');
+  }
 
   /// Assigns this value to a variable with the given [name].
   Expression assignTo(String name, [String op = '=']) =>
