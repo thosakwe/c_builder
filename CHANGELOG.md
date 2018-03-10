@@ -1,5 +1,7 @@
 # 1.0.0+2
 * Allow the creation of `Enum`s.
+* Add `extern`, `inline`, and `enum$` prefixes to `CType`.
+* Added to `_escapeQuotes`.
 
 # 1.0.0+1
 * Fixed a tiny bug where integers would be printed with quotes.

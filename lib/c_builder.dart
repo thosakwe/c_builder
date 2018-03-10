@@ -2,7 +2,13 @@ import 'package:code_buffer/code_buffer.dart';
 import 'package:meta/meta.dart';
 
 String _escapeQuotes(String str) {
-  return str.replaceAll('"', '\\"');
+  return str
+      .replaceAll('"', '\\"')
+      .replaceAll('\b', '\\b')
+      .replaceAll('\r', '\\r')
+      .replaceAll('\f', '\\f')
+      .replaceAll('\n', '\\n')
+      .replaceAll('\t', '\\t');
 }
 
 final Expression NULL = new Expression('NULL');
@@ -122,7 +128,8 @@ class CType extends Code {
 
   CType unsigned() => prefix('unsigned');
 
-  CType extern() => prefix('extern');
+  CType extern([String str]) =>
+      str == null ? prefix('extern') : prefix('extern "${_escapeQuotes(str)}"');
 
   CType register() => prefix('register');
 
@@ -137,6 +144,10 @@ class CType extends Code {
   CType short() => prefix('short');
 
   CType long() => prefix('long');
+
+  CType inline() => prefix('inline');
+
+  CType enum$() => prefix('enum');
 
   Expression sizeof() => new Expression('sizeof($code)');
 
