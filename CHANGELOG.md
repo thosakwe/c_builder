@@ -1,3 +1,6 @@
+# 1.0.0+4
+* Added `pointerType` to `FunctionSignature`.
+
 # 1.0.0+3
 * Add `size_t`, `ptrdiff_t`.
 * Add `invoke` to `Expression`.

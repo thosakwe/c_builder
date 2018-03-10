@@ -234,10 +234,35 @@ class FunctionSignature extends CodeWithComments {
     return '${returnType.code} $name(${parameters.join(', ')})';
   }
 
+  /// Returns a CType that references a pointer of this type.
+  ///
+  /// Ex: `int(*)(int,int);`
+  CType pointerType() {
+    return new CType('${returnType.code}(*)(${parameters.map((p) => p.type.code).join(', ')})');
+  }
+
+  /// Returns a [Parameter] referencing a pointer of this type.
+  ///
+  /// Ex: `int(*mypointer)(int,int);`
+  Parameter asParameter() {
+    return new _FunctionParameter(this);
+  }
+
   @override
   void generate(CodeBuffer buffer) {
     super.generate(buffer);
     buffer.writeln('$signature;');
+  }
+}
+
+class _FunctionParameter extends Parameter {
+  final FunctionSignature signature;
+
+  _FunctionParameter(this.signature):super(signature.pointerType(), signature.name);
+
+  @override
+  String toString() {
+    return '${signature.returnType.code}(*$name)(${signature.parameters.map((p) => p.type.code).join(', ')})';
   }
 }
 
@@ -262,15 +287,20 @@ class CFunction extends CodeWithComments {
 }
 
 /// A parameter for a C function.
-class Parameter {
+class Parameter extends Code {
   final CType type;
   final String name;
 
-  Parameter(this.type, this.name);
+  Parameter(this.type, this.name):super._();
 
   @override
   String toString() {
     return '${type.code} $name';
+  }
+
+  @override
+  void generate(CodeBuffer buffer) {
+    buffer.writeln(toString());
   }
 }
 
