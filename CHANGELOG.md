@@ -1,3 +1,6 @@
+# 1.0.0+5
+* Fixed a bug that caused `Field`s to generate incorrect code.
+
 # 1.0.0+4
 * Added `pointerType` to `FunctionSignature`.
 

@@ -193,7 +193,7 @@ class Field extends CodeWithComments {
   @override
   String toString() {
     if (value == null) return '${type.code} $name';
-    return '${type.code} $name = $value';
+    return '${type.code} $name = ${value.code}';
   }
 }
 
