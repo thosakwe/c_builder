@@ -26,6 +26,8 @@ class Code {
 
   factory Code.empty() => new Code('');
 
+  String get code => _code;
+
   void generate(CodeBuffer buffer) {
     buffer.writeln(_code);
   }
@@ -76,7 +78,11 @@ class CompilationUnit extends CodeWithComments {
   @override
   void generate(CodeBuffer buffer) {
     super.generate(buffer);
-    body.forEach((c) => c.generate(buffer));
+
+    for (var c in body) {
+      c.generate(buffer);
+      buffer.writeln(' ');
+    }
   }
 }
 
@@ -112,7 +118,8 @@ class CType extends Code {
       uint64_t = new CType('uint64_t'),
       size_t = new CType('size_t'),
       ptrdiff_t = new CType('ptrdiff_t'),
-      void$ = new CType('void');
+      void$ = new CType('void'),
+      auto = new CType('auto');
 
   final String code;
 
@@ -238,7 +245,8 @@ class FunctionSignature extends CodeWithComments {
   ///
   /// Ex: `int(*)(int,int);`
   CType pointerType() {
-    return new CType('${returnType.code}(*)(${parameters.map((p) => p.type.code).join(', ')})');
+    return new CType(
+        '${returnType.code}(*)(${parameters.map((p) => p.type.code).join(', ')})');
   }
 
   /// Returns a [Parameter] referencing a pointer of this type.
@@ -258,7 +266,8 @@ class FunctionSignature extends CodeWithComments {
 class _FunctionParameter extends Parameter {
   final FunctionSignature signature;
 
-  _FunctionParameter(this.signature):super(signature.pointerType(), signature.name);
+  _FunctionParameter(this.signature)
+      : super(signature.pointerType(), signature.name);
 
   @override
   String toString() {
@@ -291,7 +300,7 @@ class Parameter extends Code {
   final CType type;
   final String name;
 
-  Parameter(this.type, this.name):super._();
+  Parameter(this.type, this.name) : super._();
 
   @override
   String toString() {
@@ -413,9 +422,17 @@ class Expression extends CodeWithComments {
     buffer.writeln('$code;');
   }
 
+  Expression suffix(String s) => new Expression(code + s);
+
+  Expression asDouble() => suffix('d');
+
+  Expression asFloat() => suffix('f');
+
+  Expression asByte() => suffix('b');
+
   Code asReturn() => new Code('return $code;');
 
-  Code asThrow() => new Code('throw $code;');
+  Expression asThrow() => new Expression('throw $code');
 
   Expression invoke(Iterable<Expression> arguments) {
     return new Expression('$code(${arguments.map((a) => a.code).join(', ')})');

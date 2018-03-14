@@ -16,6 +16,8 @@ main() {
           'The system calls this function when starting the program.'
         ])
         ..body.addAll([
+          new Field(
+              CType.float, 'myFloat', new Expression.value(32.5).asFloat()),
           new Expression.value(0).asReturn(),
         ]),
     ]);

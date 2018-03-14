@@ -1,5 +1,5 @@
 name: c_builder
-version: 1.0.0+5
+version: 1.0.0+6
 description: An API for generating C code in Dart. Especially helpful for compiler development. Supports generating every possible unit of C code.
 author: Tobe O <thosakwe@gmail.com>
 homepage: https://github.com/thosakwe/c_builder.git

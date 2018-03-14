@@ -1,5 +1,8 @@
 # 1.0.0+5
 * Fixed a bug that caused `Field`s to generate incorrect code.
+* Added `suffix`, `asFloat`, `asDouble`, and `asByte` to `Expression`.
+* `Expression.asThrow` now returns an `Expression`.
+* Added `CType.auto`.
 
 # 1.0.0+4
 * Added `pointerType` to `FunctionSignature`.
