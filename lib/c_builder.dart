@@ -173,13 +173,14 @@ class CType extends Code {
 
 /// An fixed-size data structure in C.
 class Struct extends CType {
+  final String name;
   final List<Field> fields = [];
 
-  Struct() : super._();
+  Struct([this.name]) : super._();
 
   @override
   String get code {
-    return 'struct { ${fields.join('; ')} }';
+    return 'struct${name == null ? '' : ' $name'} { ${fields.join('; ')} }';
   }
 }
 
@@ -189,7 +190,7 @@ class Field extends CodeWithComments {
   final String name;
   final Expression value;
 
-  Field(this.type, this.name, this.value);
+  Field(this.type, this.name, [this.value]);
 
   @override
   void generate(CodeBuffer buffer) {

@@ -1,3 +1,8 @@
+# 1.1.0
+* Upgrade for Dart 2.
+* Allow structs to have names.
+* `Field.value` is now optional.
+
 # 1.0.0+5
 * Fixed a bug that caused `Field`s to generate incorrect code.
 * Added `suffix`, `asFloat`, `asDouble`, and `asByte` to `Expression`.
